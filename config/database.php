@@ -11,6 +11,7 @@
         private $port = "3308";
         private $password = "";
         public $conn;
+
         public function getConnection(){
             $this->conn = null;
             try{
@@ -20,6 +21,12 @@
                 echo "Database could not be connected: " . $exception->getMessage();
             }
             return $this->conn;
+        }
+
+        public function closeConnection() {
+            $this->conn = null;
+            //mysqli_close($this->conn);
+
         }
     }  
 ?>

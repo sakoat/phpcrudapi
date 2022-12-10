@@ -59,6 +59,35 @@
             }
             return false;
         }
+
+        // CREATE
+         public function userRegistration(){
+            $this->db_table = "user";
+            $sqlQuery = "INSERT INTO
+                        ". $this->db_table ."
+                    SET
+                        username = :username, 
+                        password = :password";
+        
+            $stmt = $this->conn->prepare($sqlQuery);
+        
+            // sanitize
+            $this->username=htmlspecialchars(strip_tags($this->username));
+            $this->password=htmlspecialchars(strip_tags($this->password));
+            
+            // bind data
+            $stmt->bindParam(":username", $this->username);
+            $stmt->bindParam(":password", $this->password);
+           
+            if($stmt->execute()){
+                $arr = $stmt->errorInfo();
+                
+                return true;
+            }
+            return false;
+
+        }
+
         // READ single
         public function getSingleEmployee(){
             $sqlQuery = "SELECT
@@ -83,7 +112,29 @@
             $this->age = $dataRow['age'];
             $this->designation = $dataRow['designation'];
             $this->created = $dataRow['created'];
-        }        
+        } 
+        
+        // READ single
+        public function getSingleUser(){
+            $this->db_table = "user";
+            $sqlQuery = "SELECT
+                        id, 
+                        username, 
+                        password 
+                      FROM
+                        ". $this->db_table ."
+                    WHERE 
+                    username = :username and password = :password
+                    LIMIT 0,1";
+                   
+            $stmt = $this->conn->prepare($sqlQuery);
+            // bind data
+            $stmt->bindParam(":username", $this->username);
+            $stmt->bindParam(":password", $this->password);
+            $stmt->execute();
+            $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $dataRow;
+        } 
         // UPDATE
         public function updateEmployee(){
             $sqlQuery = "UPDATE
