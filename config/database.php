@@ -25,7 +25,7 @@
 
         public function closeConnection() {
             $this->conn = null;
-            //mysqli_close($this->conn);
+            //mysqli_close($this->conn);$this->conn->close();
 
         }
     }  

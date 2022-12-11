@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$username = $result['username'];
 		
 		$headers = array('alg'=>'HS256','typ'=>'JWT');
-		$payload = array('username'=>$username, 'exp'=>(time() + 60));
+		$payload = array('username'=>$username, 'exp'=>(time() + 3600));
 
 		$jwt =  $tokenObj->generate_jwt($headers, $payload);
 		
